@@ -2,7 +2,6 @@ package rule
 
 import (
 	"context"
-	"log"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -20,9 +19,12 @@ func FilterOnlyOwnTodos() privacy.QueryMutationRule {
 
 	return privacy.FilterFunc(func(ctx context.Context, f privacy.Filter) error {
 		view := viewer.FromContext(ctx)
+		if view == nil {
+			return privacy.Denyf("missing viewer in context")
+		}
+
 		tf, ok := f.(TodoFilter)
 		if !ok {
-			log.Println("etf")
 			return privacy.Denyf("unexpected filter type %T", f)
 		}
 

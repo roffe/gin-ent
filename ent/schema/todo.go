@@ -40,6 +40,9 @@ func (Todo) Edges() []ent.Edge {
 
 func (Todo) Policy() ent.Policy {
 	return privacy.Policy{
+		Mutation: privacy.MutationPolicy{
+			rule.FilterOnlyOwnTodos(),
+		},
 		Query: privacy.QueryPolicy{
 			rule.FilterOnlyOwnTodos(),
 		},

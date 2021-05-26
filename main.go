@@ -33,6 +33,7 @@ func setupDB() {
 	if err := client.Schema.Create(context.Background()); err != nil {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
+
 }
 
 func main() {
@@ -51,6 +52,8 @@ func main() {
 	{
 		r.POST("/todo", createTodo)
 		r.GET("/todos", getTodos)
+		r.DELETE("/todo/:id", deleteTodo)
+		r.PATCH("/todo/:id", updateTodo)
 	}
 	r.Run()
 }
