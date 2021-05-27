@@ -6,7 +6,6 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
-	"entgo.io/ent/schema/index"
 )
 
 // User holds the schema definition for the User entity.
@@ -23,7 +22,7 @@ func (User) Fields() []ent.Field {
 		field.Time("updated_at").
 			Default(time.Now).
 			UpdateDefault(time.Now),
-		field.String("username"),
+		field.String("username").Unique(),
 		field.Bytes("password"),
 	}
 }
@@ -32,11 +31,5 @@ func (User) Fields() []ent.Field {
 func (User) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("todos", Todo.Type),
-	}
-}
-
-func (User) Indexes() []ent.Index {
-	return []ent.Index{
-		index.Fields("username").Unique(),
 	}
 }
